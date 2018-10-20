@@ -26,20 +26,36 @@ Enzyme provides access to component `props` and `state`
 
 
 ## Starting installation in CRA
-- yarn add ajv to prevent error due to difference in dev dependencies
+- `yarn add ajv` to prevent error due to difference in dev dependencies
 If you don't update jest, and you install the latest enzyme, you might get version incompatibilities between the jest installed with create-react-app and the latest enzyme.
+
+- Update `jest`
+- Install `jest-enzyme`
+- Install `enzyme`
+- Install `enzyme-adapter`
 
 - yarn add --save-dev jest enzyme jest-enzyme enzyme-adapter-react-16.3
 
 
 ___________________________________________________
 
-Inside App.test.js
+Inside `App.test.js`
 
 - Remove this line => import ReactDOM from 'react-dom';
 
 - configure enzyme to use the particular enzyme-adapter
 
+```import React from 'react';
+import Enzyme, {shallow} from 'enzyme';
+import EnzymeAdapter from 'enzyme-adapter-react-16.3';
+import App from './App';
+
+Enzyme.configure({adapter: new EnzymeAdapter()});
+
+test('renders without crashing', () => {
+  const wrapper = shallow(<App />)
+});
+```
 
 ## Using enzyme in a test
 - Use enzyme in jest framework
@@ -69,3 +85,59 @@ Most commonly used assertion:
 
 
 ## Types of tests
+- Unit tests
+  - Tests one piece (usually one function)
+
+- Integration tests
+  - How multiple units work together
+
+- Acceptance/End-to-end (E2E) tests
+  - How a user would interact with the app
+
+** Enzyme works with unit and integration tests
+
+
+## Primary testing goal
+- Test behavior, not implementation
+- Refactors shouldn't affect test
+- Don't rewrite tests after refactor
+
+
+## Feature to test
+- App keeps counter of button click count
+- Click count is stored in component state
+
+### Good test
+- Set initial state
+- Simulate clicking a button that increments counter
+- Check to see if counter state was incremented
+
+### Brittle test
+- Set initial state
+- Simulate clicking a button that increments counter
+- Check to see if particular function was called
+
+### Why brittle?
+- Testing implementation (function name)
+- Not behavior (state update)
+
+- Sometimes skip unit, focus on integration.
+
+
+## Snapshot testing
+- Jest includes "snapshot testing"
+  - A way to freeze a component
+  - Test fails if there are any changes
+
+No snapshots here
+- No TDD
+- Brittle (any change to component will break)
+- Too easy to ignore failures and update
+- No test intent
+  - If there's a failure, does code still meet spec?
+- If used, its alongside traditional tests
+
+# Simple React App: Click Counter
+- CRA doesn't comes w/ enzyme installed
+
+- If a project has many tests, configure `jest` to do all this enzyme setup before each test.
