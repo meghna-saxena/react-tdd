@@ -57,5 +57,15 @@ test('counter starts at 0', () => {
 });
 
 test('clicking button increments counter display', () => {
+  const counter = 7;
+  const wrapper = setup(null, { counter });
 
+  // find button and clicking
+  const button = findByTestAttr(wrapper, 'increment-button');
+  button.simulate('click');
+  wrapper.update();
+
+  // find display and test value
+  const counterDisplay = findByTestAttr(wrapper, 'counter-display');
+  expect(counterDisplay.text()).toContain(counter + 1)
 });
