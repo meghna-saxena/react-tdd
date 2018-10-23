@@ -142,6 +142,6 @@ describe('Decrement', () => {
       const errorDiv = findByTestAttr(wrapper, 'error-message');
       const errorHasHiddenClass = errorDiv.hasClass('hidden');
       expect(errorHasHiddenClass).toBe(true);
-    });
+    }); 
   });
 });
